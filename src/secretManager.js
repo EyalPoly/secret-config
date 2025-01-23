@@ -13,20 +13,16 @@ class SecretManager {
       return cached.value;
     }
 
-    try {
-      const name = `projects/${this.projectId}/secrets/${secretName}/versions/latest`;
-      const [version] = await this.client.accessSecretVersion({ name });
-      const value = version.payload.data.toString("utf8");
+    const name = `projects/${this.projectId}/secrets/${secretName}/versions/latest`;
+    const [version] = await this.client.accessSecretVersion({ name });
+    const value = version.payload.data.toString("utf8");
 
-      this.cache.set(secretName, {
-        value,
-        timestamp: Date.now(),
-      });
+    this.cache.set(secretName, {
+      value,
+      timestamp: Date.now(),
+    });
 
-      return value;
-    } catch (error) {
-      throw error;
-    }
+    return value;
   }
 }
 

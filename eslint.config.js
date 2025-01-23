@@ -1,5 +1,4 @@
 import js from "@eslint/js";
-import stylistic from "@stylistic/eslint-plugin";
 import jest from "eslint-plugin-jest";
 import globals from "globals";
 
@@ -12,9 +11,8 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.es2021
+        ...globals.es2022
       },
-      ecmaVersion: 2021,
       sourceType: 'module'
     },
     rules: {

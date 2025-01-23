@@ -58,7 +58,7 @@ describe("BaseConfig", () => {
 
       try {
         await config.initialize();
-      } catch (error) {
+      } catch {
         // Expected to throw since _loadSecrets is not implemented
       }
 
