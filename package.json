@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Shared library package for Node.js for managing secrets in Google Secrets Manager",
   "main": "src/index.js",
+  "type": "module",
   "directories": {
     "test": "tests"
   },
