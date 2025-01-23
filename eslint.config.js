@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin";
 import jest from "eslint-plugin-jest";
+import globals from "globals";
 
 export default [
   // Base configuration
@@ -25,11 +26,15 @@ export default [
     }
   },
   
-  // Node.js specific rules
+  // Node.js specific configuration
   {
-    env: {
-      node: true,
-      es2021: true,
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.es2021
+      },
+      ecmaVersion: 2021,
+      sourceType: 'module'
     },
     rules: {
       // Node.js best practices
@@ -45,6 +50,11 @@ export default [
   {
     files: ['**/*.test.js', '**/*.spec.js'],
     ...jest.configs['flat/recommended'],
+    languageOptions: {
+      globals: {
+        ...globals.jest
+      }
+    },
     rules: {
       ...jest.configs['flat/recommended'].rules,
       "jest/prefer-expect-assertions": "off"
