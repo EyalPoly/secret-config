@@ -7,25 +7,6 @@ export default [
   // Base configuration
   js.configs.recommended,
   
-  // Stylistic rules
-  {
-    plugins: {
-      "@stylistic": stylistic
-    },
-    rules: {
-      // Consistent spacing and formatting
-      "@stylistic/indent": ["error", 2],
-      "@stylistic/quotes": ["error", "single"],
-      "@stylistic/semi": ["error", "always"],
-      "@stylistic/comma-dangle": ["error", "always-multiline"],
-      "@stylistic/max-len": ["warn", { 
-        code: 100, 
-        tabWidth: 2, 
-        ignoreUrls: true 
-      }],
-    }
-  },
-  
   // Node.js specific configuration
   {
     languageOptions: {
