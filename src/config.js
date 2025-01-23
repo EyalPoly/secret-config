@@ -22,12 +22,12 @@ class BaseConfig {
   }
 
   async initialize() {
-    if (this.initialized) return this.config;
+    if (this.#initialized) return this.config;
 
     try {
       env.validate();
       await this._loadSecrets();
-      this.initialized = true;
+      this.#initialized = true;
       return this.config;
     } catch (error) {
       throw new Error(`Failed to initialize config: ${error.message}`);
@@ -35,7 +35,7 @@ class BaseConfig {
   }
 
   get() {
-    if (!this.initialized) {
+    if (!this.#initialized) {
       throw new Error("Config not initialized. Call initialize() first.");
     }
     return this.config;
