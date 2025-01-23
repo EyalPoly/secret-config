@@ -8,6 +8,12 @@ jest.mock("../src/secretManager");
 describe("BaseConfig", () => {
   let mockEnvVars;
 
+  class TestConfig extends BaseConfig {
+    async _loadSecrets() {
+      this.config = { test: "value" };
+    }
+  }
+
   beforeEach(() => {
     jest.clearAllMocks();
 
@@ -18,6 +24,7 @@ describe("BaseConfig", () => {
     };
 
     env.getEnvWithDefaults.mockReturnValue(mockEnvVars);
+    env.validate.mockImplementation(() => {});
   });
 
   describe("constructor", () => {
@@ -47,12 +54,6 @@ describe("BaseConfig", () => {
   });
 
   describe("initialize", () => {
-    class TestConfig extends BaseConfig {
-      async _loadSecrets() {
-        this.config = { test: "value" };
-      }
-    }
-
     it("should validate environment variables", async () => {
       const config = new BaseConfig();
 
@@ -97,10 +98,9 @@ describe("BaseConfig", () => {
   });
 
   describe("get", () => {
-    it("should return config if initialized", () => {
-      const config = new BaseConfig();
-      config.initialized = true;
-      config.config = { test: "value" };
+    it("should return config if initialized", async () => {
+      const config = new TestConfig();
+      await config.initialize();
 
       expect(config.get()).toEqual({ test: "value" });
     });
