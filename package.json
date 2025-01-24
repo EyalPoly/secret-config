@@ -1,6 +1,6 @@
 {
   "name": "@eyal-poly/secret-config",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Shared library package for Node.js for managing secrets in Google Secrets Manager",
   "main": "src/index.js",
   "type": "module",
