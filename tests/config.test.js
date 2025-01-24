@@ -130,8 +130,8 @@ describe("SecretConfig", () => {
       );
 
       expect(secretConfig.config).toEqual({
-        "databaseUri": mongoUri,
-        "jwtSecret": jwtSecret,
+        databaseUri: mongoUri,
+        jwtSecret: jwtSecret,
       });
     });
 

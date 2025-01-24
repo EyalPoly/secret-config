@@ -1,8 +1,5 @@
-const secretManager = require('./secretManager.js');
-const { BaseConfig, DefaultConfig } = require('./config');
+const SecretConfig = require("./config");
 
 module.exports = {
-  secretManager,
-  BaseConfig,
-  DefaultConfig
+  SecretConfig,
 };
