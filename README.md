@@ -17,20 +17,21 @@ npm install @eyal-poly/secret-config
 
 ## Quick Start
 
-### Basic Usage
-
 ```javascript
-const { DefaultConfig } = require("@eyal-poly/secret-config");
+const SecretConfig = require("./secretConfig");
 
 async function initializeApp() {
   try {
-    // Initialize configuration
-    const config = new DefaultConfig();
+    const config = new SecretConfig();
+
+    config
+      .addSecret("databaseUri", "DATABASE_URI")
+      .addSecret("apiKey", "API_KEY");
+
     await config.initialize();
 
-    // Access your configuration
     const configuration = config.get();
-    console.log(configuration.database.uri);
+    console.log(configuration.databaseUri);
   } catch (error) {
     console.error("Configuration initialization failed", error);
   }
@@ -49,34 +50,23 @@ The library supports the following environment variables:
 | `NODE_ENV`                | Application environment              | `development`      |
 | `SECRET_CACHE_TTL`        | Secret caching time-to-live          | `3600000` (1 hour) |
 
-### Custom Configuration
+### Custom Initialization
 
 You can customize the configuration during initialization:
 
 ```javascript
-const config = new DefaultConfig({
+const config = new SecretConfig({
   projectId: "custom-project-id",
   environment: "staging",
   secretCacheTTL: 7200000, // 2 hours
 });
 ```
 
-## Extending the Configuration
+## Methods
 
-Create a custom configuration class by extending `BaseConfig`:
-
-```javascript
-const { BaseConfig } = require("@attendme/config");
-
-class MyCustomConfig extends BaseConfig {
-  async _loadSecrets() {
-    this.config = {
-      // Custom secret loading logic
-      myCustomSecret: await this.secretManager.getSecret("MY_CUSTOM_SECRET"),
-    };
-  }
-}
-```
+- addSecret(key, secretNamePostfix): Add a secret to be loaded
+- initialize(): Load secrets and prepare configuration
+- get(): Retrieve the loaded configuration
 
 ## Error Handling
 

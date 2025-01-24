@@ -1,8 +1,10 @@
 const env = require("./env");
 const SecretManager = require("./secretManager");
 
-class BaseConfig {
+class SecretConfig {
   #initialized = false;
+  #secrets = {};
+
   constructor(options = {}) {
     this.config = {};
 
@@ -41,28 +43,21 @@ class BaseConfig {
     return this.config;
   }
 
-  async _loadSecrets() {
-    throw new Error("_loadSecrets must be implemented by subclass");
-  }
-}
-
-class DefaultConfig extends BaseConfig {
-  async _loadSecrets() {
+  async addSecret(key, secretNamePostfix) {
+    if (this.#initialized) {
+      throw new Error("Cannot add secrets after initialization");
+    }
     const { environment } = this.options;
 
-    this.config = {
-      database: {
-        uri: await this.secretManager.getSecret(
-          `ATTENDME_${environment}_MONGODB_URI`
-        ),
-      },
-      jwt: {
-        secret: await this.secretManager.getSecret(
-          `ATTENDME_${environment}_JWT_SECRET`
-        ),
-      },
-    };
+    this.#secrets[key] = `ATTENDME_${environment}_` + secretNamePostfix;
+    return this;
+  }
+
+  async _loadSecrets() {
+    for (const [key, secretName] of Object.entries(this.#secrets)) {
+      this.config[key] = await this.secretManager.getSecret(secretName);
+    }
   }
 }
 
-module.exports = { BaseConfig, DefaultConfig };
+module.exports = SecretConfig;
